@@ -1,0 +1,17 @@
+---
+version: 5
+defaults:
+  datadir: /etc/puppet/code/production/hiera
+  data_hash: yaml_data
+
+hierarchy:
+  - name: "Private node data"
+    datadir: /etc/puppet/private
+    path: "nodes/%{trusted.certname}.yaml"
+  - name: "Per-node data (yaml version)"
+    path: "nodes/%{trusted.certname}.yaml"
+  - name: "Private common data"
+    datadir: /etc/puppet/private
+    path: common.yaml
+  - name: common
+    path: common.yaml

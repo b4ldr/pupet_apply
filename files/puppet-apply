@@ -1,0 +1,13 @@
+#!/bin/sh
+if [ -f /var/tmp/disable_puppet ]
+then
+  echo 'puppet disabled'
+  exit 1
+fi
+code_dir=/etc/puppet/code/production
+cd "${code_dir}" || exit 1
+git_output=$(/usr/bin/git pull)
+r10k_output=$(/usr/bin/bundle exec r10k puppetfile install)
+puppet_output=$(/usr/bin/puppet apply --detailed-exitcodes \
+  --modulepath="/etc/puppet/code/modules:/usr/share/puppet/modules:${code_dir}/modules" \
+  "${code_dir}/manifests/") || printf "%s\\n%s\\n%s\\n" "${git_output}" "${r10k_output}" "${puppet_output}"
