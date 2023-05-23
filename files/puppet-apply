@@ -6,7 +6,7 @@ then
 fi
 code_dir=/etc/puppet/code/production
 cd "${code_dir}" || exit 1
-git_output=$(sudo -u /usr/bin/git pull)
+git_output=$(sudo -u puppet /usr/bin/git pull)
 r10k_output=$(/usr/bin/bundle exec r10k puppetfile install)
 puppet_output=$(/usr/bin/puppet apply --detailed-exitcodes \
   --modulepath="/etc/puppet/code/modules:/usr/share/puppet/modules:${code_dir}/modules" \
